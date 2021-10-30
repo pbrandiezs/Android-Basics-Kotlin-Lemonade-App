@@ -152,11 +152,32 @@ class MainActivity : AppCompatActivity() {
         // TODO: for each state, the textAction TextView should be set to the corresponding string from
         //  the string resources file. The strings are named to match the state
 
+        when (lemonadeState) {
+            SELECT -> {
+              textAction.text = getString(R.string.lemon_select)
+            }
+            SQUEEZE -> {
+                textAction.text = getString(R.string.lemon_squeeze)
+            }
+            DRINK -> {
+                textAction.text = getString(R.string.lemon_drink)
+            }
+            RESTART -> {
+                textAction.text = getString(R.string.lemon_empty_glass)
+            }
+            else -> {
+                textAction.text = getString(R.string.lemon_select)
+            }
+        }
+
         // TODO: Additionally, for each state, the lemonImage should be set to the corresponding
         //  drawable from the drawable resources. The drawables have the same names as the strings
         //  but remember that they are drawables, not strings.
         val drawableResource = when (lemonadeState) {
-            SELECT -> R.drawable.lemon_tree
+            SELECT -> {
+                R.drawable.lemon_tree
+//                textAction.text = getString(R.string.lemon_select)
+            }
             SQUEEZE -> R.drawable.lemon_squeeze
             DRINK -> R.drawable.lemon_drink
             RESTART -> R.drawable.lemon_restart
