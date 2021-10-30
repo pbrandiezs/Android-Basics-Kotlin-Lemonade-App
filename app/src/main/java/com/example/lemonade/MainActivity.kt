@@ -64,13 +64,16 @@ class MainActivity : AppCompatActivity() {
         // === END IF STATEMENT ===
 
         lemonImage = findViewById(R.id.image_lemon_state)
-        setViewElements()
+//        setViewElements()
+        lemonImage?.setImageResource(R.drawable.lemon_tree)
         lemonImage!!.setOnClickListener {
             // TODO: call the method that handles the state when the image is clicked
+            clickLemonImage()
         }
         lemonImage!!.setOnLongClickListener {
             // TODO: replace 'false' with a call to the function that shows the squeeze count
-            false
+            // false
+            showSnackbar()
         }
     }
 
@@ -109,8 +112,34 @@ class MainActivity : AppCompatActivity() {
 
         // TODO: When the image is clicked in the RESTART state the state should become SELECT
 
+        when (lemonadeState) {
+            SELECT -> {
+                lemonadeState = SQUEEZE
+                lemonSize = lemonTree.pick()
+                squeezeCount = 0
+            }
+            SQUEEZE -> {
+                squeezeCount++
+                lemonSize--
+                if (lemonSize == 0) {
+                    lemonadeState = DRINK
+                    lemonSize = -1
+                }
+            }
+            DRINK -> {
+                lemonadeState = RESTART
+                lemonSize = -1
+            }
+            RESTART -> {
+                lemonadeState = SELECT
+            }
+            else -> {
+                lemonadeState = SELECT
+            }
+        }
         // TODO: lastly, before the function terminates we need to set the view elements so that the
         //  UI can reflect the correct state
+        setViewElements()
     }
 
     /**
@@ -126,6 +155,14 @@ class MainActivity : AppCompatActivity() {
         // TODO: Additionally, for each state, the lemonImage should be set to the corresponding
         //  drawable from the drawable resources. The drawables have the same names as the strings
         //  but remember that they are drawables, not strings.
+        val drawableResource = when (lemonadeState) {
+            SELECT -> R.drawable.lemon_tree
+            SQUEEZE -> R.drawable.lemon_squeeze
+            DRINK -> R.drawable.lemon_drink
+            RESTART -> R.drawable.lemon_restart
+            else -> R.drawable.lemon_tree
+        }
+        lemonImage?.setImageResource(drawableResource)
     }
 
     /**
